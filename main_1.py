@@ -1,35 +1,28 @@
-class Animal:
-    def __init__(self, name, sound):
-        self.name = name
-        self.sound = sound
+def process_file() -> None:
+    try:
+        # Открываем файл
+        with open("data.txt", "r", encoding="utf-8") as file:
+            data = file.readlines()
 
-    def makesound(self):
-        print(f"{self.name} издает звук: {self.sound}")
+        # Проходим по строкам
+        for line in data:
+            line = line.strip()  # Убираем пробелы и переносы строк
+            try:
+                # Пробуем преобразовать строку в число
+                number = float(line)
+                print(number)  # Если преобразование успешно, выводим число
+            except ValueError:
+                # Если строка не может быть преобразована в число, выбрасываем TypeError
+                raise TypeError(f"Невозможно преобразовать строку в число: {line}")
 
-
-class Cat(Animal):
-    def __init__(self, name, color):
-        super().__init__(name, "мяу")
-        self.color = color
-
-    def makesound(self):
-        print(f"{self.name} (цвет: {self.color}) издает звук: {self.sound}")
-
-
-class Dog(Animal):
-    def __init__(self, name, color):
-        super().__init__(name, "гав")
-        self.color = color
-
-    def makesound(self):
-        print(f"{self.name} (цвет: {self.color}) издает звук: {self.sound}")
+    except FileNotFoundError:
+        # Обработка отсутствия файла
+        print(f"Файл data.txt не найден.")
+    except TypeError as te:
+        # Обработка ошибок преобразования
+        print(te)
 
 
 if __name__ == "__main__":
-    # Создаем объекты Cat и Dog
-    cat = Cat(name="Кошка", color="черный")
-    dog = Dog(name="Собака", color="коричневый")
-
-    # Вызываем метод makesound() для каждого объекта
-    cat.makesound()
-    dog.makesound()
+    # Пример использования
+    process_file()
